@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const { Category, Product } = require('../../models');
 
+//(200).STATUS RETURN EMPTY ARRAY
 router.get('/', async (req, res) => {
   try {
     const categoryData = await Category.findAll({
@@ -12,6 +13,7 @@ router.get('/', async (req, res) => {
   }
 });
 
+// (500).STATUS ERROR
 router.get('/:id', async (req, res) => {
   try {
     const categoryData = await Category.findByPk(res.params.id, {
@@ -29,6 +31,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+// (400) BAD REQUEST
 router.post('/', async (req, res) => {
   try {
     const categoryData = await Category.create(req.body);
@@ -38,6 +41,7 @@ router.post('/', async (req, res) => {
   }
 });
 
+// (200).STATUS BUT EMPTY ARRAY
 router.put('/:id', async (req, res) => {
   try {
     const categoryData = await Category.update({
@@ -54,6 +58,7 @@ router.put('/:id', async (req, res) => {
   }
 });
 
+// COULDN'T FIND DATA ERROR
 router.delete('/:id', async (req, res) => {
   try {
     const categoryData = await Category.destroy({
