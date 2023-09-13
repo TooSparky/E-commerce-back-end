@@ -1,12 +1,10 @@
 const router = require('express').Router();
-const { Tag, Product, ProductTag } = require('../../models');
+const Tag = require('../../models/Tag');
+const Product = require('../../models/Product');
+const ProductTag = require('../../models/ProductTag');
 
-// The `/api/tags` endpoint
-
-// BAD REQUEST
+// (400) BAD REQUEST
 router.get('/', async (req, res) => {
-  // find all tags
-  // be sure to include its associated Product data
   try {
     const tagData = await Tag.findAll({
       include: [{ model: Product }, { model: ProductTag }]
@@ -17,10 +15,8 @@ router.get('/', async (req, res) => {
   }
 });
 
-// BAD REQUEST
+// (400) BAD REQUEST
 router.get('/:id', async (req, res) => {
-  // find a single tag by its `id`
-  // be sure to include its associated Product data
   try {
     const tagData = await Tag.findByPk({
       include: [{ model: Product }, { model: ProductTag }]
@@ -33,7 +29,6 @@ router.get('/:id', async (req, res) => {
 
 // WORKS
 router.post('/', async (req, res) => {
-  // create a new tag
   try {
     const tagData = await Tag.create({
       tag_name: req.body.tag_name,
@@ -44,9 +39,8 @@ router.post('/', async (req, res) => {
   }
 });
 
-// (200).STATUS BUT RETURNING NO DATA
+// WORKS!
 router.put('/:id', async (req, res) => {
-  // update a tag's name by its `id` value
   try {
     const tagData = await Tag.update({
       tag_name: req.body.tag_name,
@@ -62,14 +56,10 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-//BAD REQUEST
+// WORKS!
 router.delete('/:id', async (req, res) => {
-  // delete on tag by its `id` value
   try {
     const tagData = await Tag.destroy({
-      tag_name: req.body.tag_name,
-    },
-    {
       where: {
         id: req.params.id,
       },
