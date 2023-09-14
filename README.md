@@ -12,7 +12,7 @@ By using 'npm install' it should download all of the dependencies required to ru
 
 To use this application, simply download the dependencies, clone the code, and install Insomnia to view all of the data.
 
-Video walkthrough - 
+Video walkthrough - https://drive.google.com/file/d/1J8DDSuN_jiEM9jLJ3-kNpzuZEswgCaU2/view
 
 ## Credits
 
