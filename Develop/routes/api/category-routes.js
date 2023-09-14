@@ -2,23 +2,23 @@ const router = require('express').Router();
 const {Category} = require('../../models');
 const {Product} = require('../../models');
 
-//(500).STATUS ERROR
+// Get all
 router.get('/', async (req, res) => {
   try {
     const categoryData = await Category.findAll({
-      include: [ Product ],
+      include: [ Product ]
     });
     res.status(200).json(categoryData);
   } catch (err) {
-    res.status(500).json(err);
+    res.status(400).json(err);
   }
 });
 
-// (500).STATUS ERROR
+// Get one
 router.get('/:id', async (req, res) => {
   try {
-    const categoryData = await Category.findByPk(res.params.id, {
-      include: [{ model: Product }],
+    const categoryData = await Category.findByPk(req.params.id, {
+      include: [ Product ]
     });
 
     if (!categoryData) {
@@ -28,11 +28,11 @@ router.get('/:id', async (req, res) => {
 
     res.status(200).json(categoryData);
   } catch (err) {
-    res.status(500).json(err);
+    res.status(400).json(err);
   }
 });
 
-// WORKS!
+// Post new
 router.post('/', async (req, res) => {
   try {
     const categoryData = await Category.create(req.body);
@@ -42,7 +42,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-// WORKS!
+// Put one
 router.put('/:id', async (req, res) => {
   try {
     const categoryData = await Category.update({
@@ -59,7 +59,7 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-// WORKS!
+// Delete one
 router.delete('/:id', async (req, res) => {
   try {
     const categoryData = await Category.destroy({

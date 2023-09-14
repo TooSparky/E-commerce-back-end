@@ -3,11 +3,11 @@ const {Tag} = require('../../models');
 const {Product} = require('../../models');
 const {ProductTag} = require('../../models');
 
-// (400) BAD REQUEST
+// Get all
 router.get('/', async (req, res) => {
   try {
     const tagData = await Tag.findAll({
-      include: [{ model: Product }, { model: ProductTag }]
+      include: [{ model: Product, through: ProductTag, as: 'product_tags' }]
     });
     res.status(200).json(tagData);
   } catch (err) {
@@ -15,19 +15,20 @@ router.get('/', async (req, res) => {
   }
 });
 
-// (400) BAD REQUEST
+// Get one
 router.get('/:id', async (req, res) => {
   try {
-    const tagData = await Tag.findByPk({
-      include: [{ model: Product }, { model: ProductTag }]
+    const tagData = await Tag.findByPk(req.params.id, {
+      include: [{ model: Product, through: ProductTag, as: 'product_tags' }]
     });
     res.status(200).json(tagData);
   } catch (err) {
+    console.log(err);
     res.status(400).json(err);
   }
 });
 
-// WORKS
+// Post new
 router.post('/', async (req, res) => {
   try {
     const tagData = await Tag.create({
@@ -39,7 +40,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-// WORKS!
+// Put one
 router.put('/:id', async (req, res) => {
   try {
     const tagData = await Tag.update({
@@ -56,7 +57,7 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-// WORKS!
+// Delete one
 router.delete('/:id', async (req, res) => {
   try {
     const tagData = await Tag.destroy({

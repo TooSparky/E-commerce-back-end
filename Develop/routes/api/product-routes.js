@@ -4,7 +4,7 @@ const {Tag} = require('../../models');
 const {ProductTag} = require('../../models');
 const {Product} = require('../../models');
 
-// (400) bad request
+// Get all
 router.get('/', async (req, res) => {
   try {
     const productData = await Product.findAll({
@@ -12,16 +12,15 @@ router.get('/', async (req, res) => {
     });
     res.status(200).json(productData);
   } catch (err) {
-    console.log(err);
     res.status(400).json(err);
   }
 });
 
-// (400) bad request
+// Get one
 router.get('/:id', async (req, res) => {
   try {
     const productData = await Product.findByPk(req.params.id, {
-      include: [{ model: Category }, { model: Tag }],
+      include: [ Category, { model: Tag, through: ProductTag, as: 'product_tags' }]
     });
     res.status(200).json(productData);
   } catch (err) {
@@ -29,7 +28,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// WORKS!
+// Post new
 router.post('/', (req, res) => {
   Product.create(req.body)
     .then((product) => {
@@ -51,7 +50,7 @@ router.post('/', (req, res) => {
     });
 });
 
-// WORKS!
+// Put one
 router.put('/:id', (req, res) => {
   Product.update(req.body, {
     where: {
@@ -92,7 +91,7 @@ router.put('/:id', (req, res) => {
     });
 });
 
-// WORKS!
+// Delete one
 router.delete('/:id', async (req, res) => {
   try {
     const productData = await Product.destroy({
