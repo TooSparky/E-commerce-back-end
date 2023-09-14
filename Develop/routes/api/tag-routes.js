@@ -1,7 +1,7 @@
 const router = require('express').Router();
-const Tag = require('../../models/Tag');
-const Product = require('../../models/Product');
-const ProductTag = require('../../models/ProductTag');
+const {Tag} = require('../../models');
+const {Product} = require('../../models');
+const {ProductTag} = require('../../models');
 
 // (400) BAD REQUEST
 router.get('/', async (req, res) => {

@@ -1,17 +1,18 @@
 const router = require('express').Router();
-const Category = require('../../models/Category');
-const Tag = require('../../models/Tag');
-const ProductTag = require('../../models/ProductTag');
-const Product = require('../../models/Product');
+const {Category} = require('../../models');
+const {Tag} = require('../../models');
+const {ProductTag} = require('../../models');
+const {Product} = require('../../models');
 
 // (400) bad request
 router.get('/', async (req, res) => {
   try {
     const productData = await Product.findAll({
-      include: [{ model: Category }, { model: Tag }]
+      include: [ Category, { model: Tag, through: ProductTag, as: 'product_tags' }]
     });
     res.status(200).json(productData);
   } catch (err) {
+    console.log(err);
     res.status(400).json(err);
   }
 });
